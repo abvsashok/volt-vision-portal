@@ -10,6 +10,7 @@ import Analytics from './Analytics';
 import PlotView from './PlotView';
 import SettingsTab from './SettingsTab';
 
+const TTitle = ({ title }) => <Typography variant="h4" sx={{ m: 0, fontWeight: 900 }}>{title}</Typography>
 function TabPanel(props) {
     const { children, value, index, style, ...other } = props;
 
@@ -53,7 +54,7 @@ export default function TabsBlock() {
     // flexGrow: 1,
     return (
         <Box
-            sx={{  display: 'flex' }}
+            sx={{ display: 'flex' }}
         >
             <Tabs
                 orientation="vertical"
@@ -63,10 +64,10 @@ export default function TabsBlock() {
                 aria-label="Vertical tabs example"
                 sx={{ borderRight: 1, borderColor: 'divider' }}
             >
-                <Tab label="Tests List" icon={<ListAltOutlined />} sx={{ borderBottom: 1, pt: 1, pb: 1, borderColor: 'divider', ...(value == 0 && { backgroundColor: 'aliceblue' }) }} iconPosition="top" {...a11yProps(0)} />
-                <Tab label="Plot View" icon={<BarChartOutlined />} iconPosition="top" {...a11yProps(1)} sx={{ minWidth: 200, borderBottom: 1, borderColor: 'divider', ...(value == 1 && { backgroundColor: 'aliceblue' }) }} />
-                <Tab label="Analytics" icon={<PeopleAlt />} iconPosition="top" {...a11yProps(2)} sx={{ borderBottom: 1, borderColor: 'divider', ...(value == 2 && { backgroundColor: 'aliceblue' }) }} />
-                <Tab label="Settings" icon={<Settings />} iconPosition="top" {...a11yProps(3)} sx={{ borderBottom: 1, borderColor: 'divider', ...(value == 3 && { backgroundColor: 'aliceblue' }) }} />
+                <Tab label={<TTitle title="Test List" />} icon={<ListAltOutlined />} sx={{ borderBottom: 1, pt: 3, pb: 3, borderColor: 'divider', ...(value == 0 && { backgroundColor: 'aliceblue' }) }} iconPosition="top" {...a11yProps(0)} />
+                <Tab label={<TTitle title={"Plot View"} />} icon={<BarChartOutlined />} iconPosition="top" {...a11yProps(1)} sx={{ pt: 3, pb: 3, minWidth: 200, borderBottom: 1, borderColor: 'divider', ...(value == 1 && { backgroundColor: 'aliceblue' }) }} />
+                <Tab label={<TTitle title={"Analytics"} />} icon={<PeopleAlt />} iconPosition="top" {...a11yProps(2)} sx={{ pt: 3, pb: 3, borderBottom: 1, borderColor: 'divider', ...(value == 2 && { backgroundColor: 'aliceblue' }) }} />
+                <Tab label={<TTitle title={"Settings"} />} icon={<Settings />} iconPosition="top" {...a11yProps(3)} sx={{ pt: 3, pb: 3, borderBottom: 1, borderColor: 'divider', ...(value == 3 && { backgroundColor: 'aliceblue' }) }} />
 
             </Tabs>
             <TabPanel value={value} index={0}>

@@ -2,11 +2,11 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import useTests from './useTests';
-import { Stack, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { Stack, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Container } from '@mui/material';
 import { PlusOneOutlined } from '../../../node_modules/@mui/icons-material/index';
 import { StyledDataGrid } from './StyledDataGrid';
 import CustomNoRowsOverlay from 'components/CustomNoRowsOverlay';
-import { LinearProgress } from '../../../node_modules/@mui/material/index';
+import { Grid, LinearProgress } from '../../../node_modules/@mui/material/index';
 
 
 
@@ -72,18 +72,68 @@ export default function TestsTable() {
         <Dialog
             open={addNewTestModal?.open}
             onClose={handleNewTestClose}
-
+            PaperProps={{
+                component: 'form',
+                onSubmit: (event) => {
+                    event.preventDefault();
+                    // const formData = new FormData(event.currentTarget);
+                    // const formJson = Object.fromEntries(formData.entries());
+                    // const email = formJson.email;
+                    // console.log(email);
+                    // handleClose();
+                },
+            }}
         >
-            <DialogTitle>Add Test</DialogTitle>
-            <DialogContent>
-                <DialogContentText>
+            <DialogTitle><h2>Add Test</h2></DialogTitle>
+            <DialogContent sx={{ p: 1, m: 1 }}>
+                {/* <DialogContentText>
 
-                </DialogContentText>
+                </DialogContentText> */}
+                <Container minWidth="lg" sx={{ width: 400 }} >
+                    <TextField
+                        autoFocus
+                        required
+                        margin="dense"
+                        id="name"
+                        name="email"
+                        label="Test Name"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                        sx={{ mb: 2 }}
+                    />
+                    <TextField
+                        autoFocus
+                        required
+                        margin="dense"
+                        id="note"
+                        name="note"
+                        label="Note"
+                        type="text"
+                        fullWidth
+                        variant="standard"
+                    />
+                    {/* <Grid>
+                        <TextField
+                            sx={{ width: 300 }}
+                            id="test-name"
+                            label="Test Name"
+                            defaultValue=""
+                        />
+                    </Grid>
+                    <Grid>
+                        <TextField
 
+                            id="test-note"
+                            label="Test Note"
+                            defaultValue=""
+                        />
+                    </Grid> */}
+                </Container>
             </DialogContent>
-            <DialogActions>
-                <Button onClick={handleNewTestClose} >Cancel</Button>
-                <Button type="submit">Subscribe</Button>
+            <DialogActions sx={{ p: 2 }}>
+                <Button onClick={handleNewTestClose} variant="contained" >Cancel</Button>
+                <Button type="submit" variant="outlined">Save</Button>
             </DialogActions>
         </Dialog>
     </Box>

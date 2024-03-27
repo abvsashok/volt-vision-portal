@@ -27,7 +27,7 @@ const Tests = () => {
             }}>
             <Card sx={{}} >
 
-                <TestsTable />
+                <TabsBlock />
             </Card>
         </Box>
     </>
