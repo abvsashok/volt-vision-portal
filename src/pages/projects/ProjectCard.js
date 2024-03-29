@@ -7,7 +7,7 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import VButton from 'components/VButton';
-import { PresentToAllRounded, ViewAgendaRounded } from '../../../node_modules/@mui/icons-material/index';
+import { ArrowRightAltOutlined, ArrowRightAltRounded, ArrowRightOutlined, PresentToAllRounded, ViewAgendaRounded } from '../../../node_modules/@mui/icons-material/index';
 
 const bull = (
     <Box
@@ -21,7 +21,7 @@ const bull = (
 const card = ({ title, description }) => {
     return <React.Fragment>
         <CardContent>
-            <Typography sx={{ fontSize: 20, fontWeight: '900' }} color="text.primary" gutterBottom>
+            <Typography sx={{ fontSize: 20, fontWeight: '900' }} color="#040473f0" gutterBottom>
                 {title}
             </Typography>
             <Typography variant="h5" component="div">
@@ -32,7 +32,7 @@ const card = ({ title, description }) => {
         <CardActions>
             <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
                 <Link variant="h6" component={RouterLink} to="/admin/project-view" color="text.primary">
-                    <VButton variant="outlined" size="small" >View</VButton>
+                    <VButton variant="contained" size="small" endIcon={<ArrowRightAltRounded />} >View</VButton>
                 </Link>
             </Grid>
         </CardActions>
