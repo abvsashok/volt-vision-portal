@@ -8,10 +8,16 @@ export const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     height: 300
   },
   '& .even-row': {
-    backgroundColor: "lightgrey"
+    backgroundColor: "lightgrey",
+    color: '#000000',
+    fontWeight: '800',
+    fontSize: 15
   },
   '& .odd-row': {
-    backgroundColor: "antiquewhite"
+    backgroundColor: "antiquewhite",
+    color: 'black',
+    fontWeight: '800',
+    fontSize: 15
   }
 
 }));

@@ -20,14 +20,14 @@ export default function TestsTable() {
         setAddNewTestModal({});
     }
 
-    return <Box >
+    return <Box  >
         <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="baseline"
             display="flex"
-            spacing={2}
-            sx={{ padding: 2 }}
+            spacing={0}
+            sx={{ paddingBottom: 1 }}
         >
             <Box>
                 <VButton variant="contained" color="primary">
@@ -87,9 +87,6 @@ export default function TestsTable() {
         >
             <DialogTitle><h2>Add Test</h2></DialogTitle>
             <DialogContent sx={{ p: 1, m: 1 }}>
-                {/* <DialogContentText>
-
-                </DialogContentText> */}
                 <Container minWidth="lg" sx={{ width: 400 }} >
                     <TextField
                         autoFocus
@@ -114,22 +111,7 @@ export default function TestsTable() {
                         fullWidth
                         variant="standard"
                     />
-                    {/* <Grid>
-                        <TextField
-                            sx={{ width: 300 }}
-                            id="test-name"
-                            label="Test Name"
-                            defaultValue=""
-                        />
-                    </Grid>
-                    <Grid>
-                        <TextField
 
-                            id="test-note"
-                            label="Test Note"
-                            defaultValue=""
-                        />
-                    </Grid> */}
                 </Container>
             </DialogContent>
             <DialogActions sx={{ p: 2 }}>
