@@ -10,7 +10,7 @@ import Analytics from './Analytics';
 import PlotView from './PlotView';
 import SettingsTab from './SettingsTab';
 
-const TTitle = ({ title }) => <Typography variant="h4" sx={{ m: 0, fontWeight: 900 }}>{title}</Typography>
+const TTitle = ({ title }) => <Typography variant="h4" sx={{ m: 0, fontSize: 17, fontWeight: 700, p: 0 }}>{title}</Typography>
 function TabPanel(props) {
     const { children, value, index, style, ...other } = props;
 
@@ -65,7 +65,7 @@ export default function TabsBlock() {
                 sx={{ borderRight: 1, borderColor: 'divider' }}
             >
                 <Tab label={<TTitle title="Test List" />} icon={<ListAltOutlined />} sx={{ borderBottom: 1, pt: 3, pb: 3, borderColor: 'divider', ...(value == 0 && { backgroundColor: 'aliceblue' }) }} iconPosition="top" {...a11yProps(0)} />
-                <Tab label={<TTitle title={"Plot View"} />} icon={<BarChartOutlined />} iconPosition="top" {...a11yProps(1)} sx={{ pt: 3, pb: 3, minWidth: 200, borderBottom: 1, borderColor: 'divider', ...(value == 1 && { backgroundColor: 'aliceblue' }) }} />
+                <Tab label={<TTitle title={"Plot View"} />} icon={<BarChartOutlined />} iconPosition="top" {...a11yProps(1)} sx={{ pt: 3, pb: 3, borderBottom: 1, borderColor: 'divider', ...(value == 1 && { backgroundColor: 'aliceblue' }) }} />
                 <Tab label={<TTitle title={"Analytics"} />} icon={<PeopleAlt />} iconPosition="top" {...a11yProps(2)} sx={{ pt: 3, pb: 3, borderBottom: 1, borderColor: 'divider', ...(value == 2 && { backgroundColor: 'aliceblue' }) }} />
                 <Tab label={<TTitle title={"Settings"} />} icon={<Settings />} iconPosition="top" {...a11yProps(3)} sx={{ pt: 3, pb: 3, borderBottom: 1, borderColor: 'divider', ...(value == 3 && { backgroundColor: 'aliceblue' }) }} />
 

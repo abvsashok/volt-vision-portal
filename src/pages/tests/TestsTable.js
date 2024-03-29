@@ -3,10 +3,11 @@ import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import useTests from './useTests';
 import { Stack, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Container } from '@mui/material';
-import { PlusOneOutlined } from '../../../node_modules/@mui/icons-material/index';
+import { CancelOutlined, PlusOneOutlined, CancelPresentationRounded, CancelPresentationSharp, CancelRounded, SaveAltRounded, CopyAllRounded, SaveAsRounded } from '../../../node_modules/@mui/icons-material/index';
 import { StyledDataGrid } from './StyledDataGrid';
 import CustomNoRowsOverlay from 'components/CustomNoRowsOverlay';
 import { Grid, LinearProgress } from '../../../node_modules/@mui/material/index';
+import VButton from 'components/VButton';
 
 
 
@@ -29,17 +30,17 @@ export default function TestsTable() {
             sx={{ padding: 2 }}
         >
             <Box>
-                <Button variant="contained" color="primary">
+                <VButton variant="contained" color="primary">
                     Post Selected
-                </Button>
+                </VButton>
 
             </Box>
             <Box>
-                <Button variant="outlined" color="primary" onClick={() => {
+                <VButton variant="outlined" onClick={() => {
                     setAddNewTestModal({ open: true });
                 }} startIcon={<PlusOneOutlined />}>
                     Add new test
-                </Button>
+                </VButton>
 
             </Box>
         </Stack>
@@ -132,8 +133,8 @@ export default function TestsTable() {
                 </Container>
             </DialogContent>
             <DialogActions sx={{ p: 2 }}>
-                <Button onClick={handleNewTestClose} variant="contained" >Cancel</Button>
-                <Button type="submit" variant="outlined">Save</Button>
+                <VButton onClick={handleNewTestClose} startIcon={<CancelRounded />} variant="contained" >Cancel</VButton>
+                <VButton type="submit" variant="outlined" startIcon={<SaveAsRounded />}>Save</VButton>
             </DialogActions>
         </Dialog>
     </Box>

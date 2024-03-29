@@ -6,6 +6,8 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import VButton from 'components/VButton';
+import { PresentToAllRounded, ViewAgendaRounded } from '../../../node_modules/@mui/icons-material/index';
 
 const bull = (
     <Box
@@ -30,7 +32,7 @@ const card = ({ title, description }) => {
         <CardActions>
             <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
                 <Link variant="h6" component={RouterLink} to="/admin/project-view" color="text.primary">
-                    <Button variant="outlined" size="small">View</Button>
+                    <VButton variant="outlined" size="small" >View</VButton>
                 </Link>
             </Grid>
         </CardActions>
