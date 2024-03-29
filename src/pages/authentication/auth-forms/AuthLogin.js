@@ -27,11 +27,15 @@ import AnimateButton from 'components/@extended/AnimateButton';
 
 // assets
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import axios from '../../../../node_modules/axios/index';
+import { loginUrl } from 'utils/constant';
+import { useNavigate } from '../../../../node_modules/react-router-dom/dist/index';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
   const [checked, setChecked] = React.useState(false);
+  const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
@@ -56,6 +60,15 @@ const AuthLogin = () => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
+            axios.post(loginUrl, {
+              username: values?.email,
+              password: values?.password
+            }).then((res) => {
+              console.log(res)
+            }).catch((err) => {
+              console.log(err)
+            });
+            navigate("/admin", {})
             setStatus({ success: false });
             setSubmitting(false);
 
@@ -151,11 +164,11 @@ const AuthLogin = () => {
               )}
               <Grid item xs={12}>
                 <AnimateButton>
-                <Link component={RouterLink} to="/admin">
+                  {/* <Link component={RouterLink} to="/admin"> */}
                   <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
                     Login
                   </Button>
-                  </Link>
+                  {/* </Link> */}
                 </AnimateButton>
               </Grid>
             </Grid>

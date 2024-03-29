@@ -1,25 +1,24 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
 import useTests from './useTests';
-import { Stack, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Container } from '@mui/material';
-import { CancelOutlined, PlusOneOutlined, CancelPresentationRounded, CancelPresentationSharp, CancelRounded, SaveAltRounded, CopyAllRounded, SaveAsRounded } from '../../../node_modules/@mui/icons-material/index';
+import { Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { PlusOneOutlined, CancelRounded, SaveAsRounded } from '../../../node_modules/@mui/icons-material/index';
 import { StyledDataGrid } from './StyledDataGrid';
 import CustomNoRowsOverlay from 'components/CustomNoRowsOverlay';
-import { Grid, LinearProgress } from '../../../node_modules/@mui/material/index';
+import { Backdrop, LinearProgress, Popover } from '../../../node_modules/@mui/material/index';
 import VButton from 'components/VButton';
-
+import AddTest from './AddTest';
+import EditRow from './EditRow';
 
 
 export default function TestsTable() {
 
-    const { columns, rows } = useTests();
+    const { columns, rows, selectedRow, anchorEl, loading, handleClosePopover } = useTests();
 
     const [addNewTestModal, setAddNewTestModal] = React.useState({});
     const handleNewTestClose = () => {
         setAddNewTestModal({});
     }
-
     return <Box  >
         <Stack
             direction="row"
@@ -30,7 +29,9 @@ export default function TestsTable() {
             sx={{ paddingBottom: 1 }}
         >
             <Box>
-                <VButton variant="contained" color="primary">
+                <VButton variant="contained" color="primary" onClick={(event) => {
+
+                }}>
                     Post Selected
                 </VButton>
 
@@ -51,7 +52,7 @@ export default function TestsTable() {
 
                 return `odd-row`
             }}
-            rows={rows}
+            rows={loading ? [] : rows}
             columns={columns}
             initialState={{
                 pagination: {
@@ -63,56 +64,50 @@ export default function TestsTable() {
             pageSizeOptions={[10]}
             checkboxSelection
             disableRowSelectionOnClick
-            // loading={loading}
+            loading={loading}
             slots={{
                 noRowsOverlay: CustomNoRowsOverlay,
                 loadingOverlay: LinearProgress,
             }}
             sx={{ '--DataGrid-overlayHeight': '300px' }}
         />
+        <Popover
+            id="popover"
+            open={Boolean(selectedRow)}
+            anchorEl={anchorEl}
+            onClose={handleClosePopover}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+            }}
+        >
+            {selectedRow && (
+                <Box p={2}>
+                    <EditRow data={selectedRow} />
+                </Box>
+            )}
+        </Popover>
+        <Backdrop sx={{ color: '#fff', zIndex: (theme) => 999 }} open={Boolean(selectedRow)}>
+        </Backdrop>
         <Dialog
             open={addNewTestModal?.open}
             onClose={handleNewTestClose}
+            maxWidth={"lg"}
+            fullWidth={true}
             PaperProps={{
                 component: 'form',
                 onSubmit: (event) => {
                     event.preventDefault();
-                    // const formData = new FormData(event.currentTarget);
-                    // const formJson = Object.fromEntries(formData.entries());
-                    // const email = formJson.email;
-                    // console.log(email);
-                    // handleClose();
                 },
             }}
         >
             <DialogTitle><h2>Add Test</h2></DialogTitle>
-            <DialogContent sx={{ p: 1, m: 1 }}>
-                <Container minWidth="lg" sx={{ width: 400 }} >
-                    <TextField
-                        autoFocus
-                        required
-                        margin="dense"
-                        id="name"
-                        name="email"
-                        label="Test Name"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                        sx={{ mb: 2 }}
-                    />
-                    <TextField
-                        autoFocus
-                        required
-                        margin="dense"
-                        id="note"
-                        name="note"
-                        label="Note"
-                        type="text"
-                        fullWidth
-                        variant="standard"
-                    />
-
-                </Container>
+            <DialogContent >
+                <AddTest />
             </DialogContent>
             <DialogActions sx={{ p: 2 }}>
                 <VButton onClick={handleNewTestClose} startIcon={<CancelRounded />} variant="contained" >Cancel</VButton>

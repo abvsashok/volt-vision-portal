@@ -1,16 +1,41 @@
+import { useEffect, useState } from "react";
 import { BarChartOutlined, Download, Edit, EditAttributesRounded, EditNoteOutlined, PhotoAlbum, Update, UploadFile } from "../../../node_modules/@mui/icons-material/index";
 import { Box, Chip, IconButton, Stack, Typography } from "../../../node_modules/@mui/material/index";
+import axios from "../../../node_modules/axios/index";
+import { ApiHeaders, Urls } from "utils/constant";
 
-const ColVal = ({ children }) => <Typography  sx={{ m: 0, fontSize: 16, fontWeight: 700, p: 0 }}>{children}</Typography>
+const ColVal = ({ children }) => <Typography sx={{ m: 0, fontSize: 16, fontWeight: 700, p: 0 }}>{children}</Typography>
 
 const useTests = () => {
+
+    const [loading, setLoading] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    useEffect(() => {
+        loadTableData();
+    }, []);
+    const handleClosePopover = () => {
+        setSelectedRow(false);
+        setAnchorEl(null)
+    }
+
+    const loadTableData = () => {
+        setLoading(true);
+        axios.post(Urls.testsData).then((resp) => {
+            setLoading(false);
+            console.log(resp)
+        }).catch((err) => {
+            setLoading(false);
+            console.log(err)
+        })
+    }
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 90 },
         {
             field: 'actions',
             headerName: 'Actions',
-            // width: 150,
             renderCell: () => {
                 // display: 'flex', justifyContent: 'center', alignItems: 'center'
                 return <Box sx={{ cursor: 'pointer', }}>
@@ -38,15 +63,21 @@ const useTests = () => {
             field: 'testName',
             headerName: 'Test Name',
             width: 150,
-            renderCell: ({ row }) => {
+
+            renderCell: (data) => {
+                const { row } = data;
                 return <>
-                   <Stack
+                    <Stack
                         direction="row"
                         spacing={1}
-                        sx={{mt:1}}
+                        sx={{ mt: 1 }}
                     >
-                        <EditNoteOutlined /> <ColVal>{row?.testName}</ColVal>
-                       
+                        <EditNoteOutlined sx={{ cursor: 'pointer' }} onClick={(event) => {
+                            setSelectedRow(data);
+                            setAnchorEl(event.currentTarget)
+                        }} />
+                        <ColVal>{row?.testName}</ColVal>
+
                     </Stack>
                 </>
             }
@@ -55,15 +86,25 @@ const useTests = () => {
             field: 'project',
             headerName: 'Project',
             width: 150,
-            renderCell: ({ row }) => {
+            // editable: true,
+            // renderEditCell: (...args) => {
+            //     console.log(args)
+            //     return <>Editing Started</>
+
+            // },
+            renderCell: (data) => {
+                const { row } = data;
                 return <>
                     <Stack
                         direction="row"
                         spacing={1}
-                        sx={{mt:1}}
+                        sx={{ mt: 1 }}
                     >
-                        <EditNoteOutlined /> <ColVal>{row?.project}</ColVal>
-                       
+                        <EditNoteOutlined sx={{ cursor: 'pointer' }} onClick={(event) => {
+                            setSelectedRow(data);
+                            setAnchorEl(event.currentTarget)
+                        }} /> <ColVal>{row?.project}</ColVal>
+
                     </Stack>
                 </>
             }
@@ -79,13 +120,13 @@ const useTests = () => {
             width: 110,
             renderCell: ({ row }) => {
                 return <>
-                   <Stack
+                    <Stack
                         direction="row"
                         spacing={1}
-                        sx={{mt:1}}
+                        sx={{ mt: 1 }}
                     >
                         <EditNoteOutlined /> <ColVal>{row?.cellInformation}</ColVal>
-                       
+
                     </Stack>
                 </>
             }
@@ -96,7 +137,7 @@ const useTests = () => {
             // width: 110,
             flex: 1,
             renderCell: ({ row }) => {
-                console.log(row)
+                // console.log(row)
 
                 return <>
                     {row?.tags?.map((v) => {
@@ -151,7 +192,7 @@ const useTests = () => {
 
     ];
     return {
-        columns, rows
+        columns, rows, selectedRow, anchorEl, loading, handleClosePopover
     };
 }
 

@@ -46,7 +46,7 @@ const LoginRoutes = {
       children: [
         {
           path: '',
-          element: <Projects />
+          element: <Landing />
         },
         {
           path: 'tests',

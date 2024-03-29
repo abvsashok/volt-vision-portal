@@ -1,17 +1,54 @@
-import { Modal, Button } from 'antd';
-const confirm = Modal.confirm;
+import MainCard from 'components/MainCard';
+import { Autocomplete, Container, Grid, TextField } from '../../../node_modules/@mui/material/index';
+import VAuto from 'components/VAuto';
+import VText from 'components/VText';
 
 const AddTest = () => {
-    confirm({
-        title: 'Do you want to delete these items?',
-        content: 'When clicked the OK button, this dialog will be closed after 1 second',
-        onOk() {
-            return new Promise((resolve, reject) => {
-                setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-            }).catch(() => console.log('Oops errors!'));
-        },
-        onCancel() { },
-    });
+    return <>
+        {/* <Container minWidth="lg"  sx={{ minWidth: '60vw' }} > */}
+        <MainCard>
+            <Grid container
+                spacing={2}
+                direction="row"
+                justifyContent="space-around"
+                alignItems="flex-start" >
+                <Grid item xs={6} >
+                    <VText
+                        fullWidth
+                        autoFocus
+                        id="name"
+                        name="testName"
+                        label="Test Name"
+                        type="text"
+                        size="normal"
+                        // variant="standard"
+                    />
+
+                </Grid>
+                <Grid item xs={6} >
+                    <VText
+                        autoFocus
+                        required
+                        // margin="dense"
+                        id="note"
+                        name="note"
+                        label="Note"
+                        type="text"
+                        fullWidth
+                        // variant="outlined"
+                    />
+
+                </Grid>
+                <Grid item xs={6}>
+                    <VAuto label={"Tags"} />
+                </Grid>
+                <Grid item xs={6}>
+
+                </Grid>
+            </Grid>
+        </MainCard>
+        {/* </Container> */}
+    </>
 }
 
 export default AddTest
