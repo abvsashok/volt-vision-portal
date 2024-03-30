@@ -75,6 +75,9 @@ export default function TestsTable() {
             id="popover"
             open={Boolean(selectedRow)}
             anchorEl={anchorEl}
+            sx={{
+                zIndex: (theme) => theme.zIndex.drawer + 400
+            }}
             onClose={handleClosePopover}
             anchorOrigin={{
                 vertical: 'bottom',
@@ -91,7 +94,7 @@ export default function TestsTable() {
                 </Box>
             )}
         </Popover>
-        <Backdrop sx={{ color: '#fff', zIndex: (theme) => 999 }} open={Boolean(selectedRow)}>
+        <Backdrop id="backdropid" sx={{ color: 'red', zIndex: (theme) => theme.zIndex.drawer + 300 }} open={Boolean(selectedRow)}>
         </Backdrop>
         <Dialog
             open={addNewTestModal?.open}
