@@ -9,6 +9,7 @@ const ColVal = ({ children }) => <Typography sx={{ m: 0, fontSize: 16, fontWeigh
 const useTests = () => {
 
     const [loading, setLoading] = useState(false);
+    const [rows, setRows] = useState([]);
     const [selectedRow, setSelectedRow] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -22,9 +23,14 @@ const useTests = () => {
 
     const loadTableData = () => {
         setLoading(true);
-        axios.post(Urls.testsData).then((resp) => {
+        axios.post(Urls.testsData).then((r) => r.data).then((resp) => {
             setLoading(false);
-            console.log(resp)
+            try {
+                setRows(resp?.map((r, i) => ({ ...r, id: i + 1 })));
+            } catch (e) {
+                console.log(e)
+                setRows([])
+            }
         }).catch((err) => {
             setLoading(false);
             console.log(err)
@@ -76,22 +82,39 @@ const useTests = () => {
                             setSelectedRow(data);
                             setAnchorEl(event.currentTarget)
                         }} />
-                        <ColVal>{row?.testName}</ColVal>
+                        <ColVal>{row?.test_name}</ColVal>
 
                     </Stack>
                 </>
             }
         },
         {
+            field: 'tags',
+            headerName: 'tags',
+            flex: 1,
+            renderCell: ({ row }) => {
+                // console.log(row)
+
+                return <>
+                    {row?.tags?.map((v) => {
+                        return <>
+                            <Chip label={v} color="info" sx={{ mr: 0.5, p: 0 }} /></>
+                    })}
+
+                </>
+            }
+        },
+
+        {
+            flex: 1,
+            field: 'comments',
+            headerName: 'Comments',
+            // width: 110,
+        },
+        {
             field: 'project',
             headerName: 'Project',
             width: 150,
-            // editable: true,
-            // renderEditCell: (...args) => {
-            //     console.log(args)
-            //     return <>Editing Started</>
-
-            // },
             renderCell: (data) => {
                 const { row } = data;
                 return <>
@@ -108,11 +131,6 @@ const useTests = () => {
                     </Stack>
                 </>
             }
-        },
-        {
-            field: 'file',
-            headerName: 'Selected File',
-            width: 110,
         },
         {
             field: 'cellInformation',
@@ -132,21 +150,19 @@ const useTests = () => {
             }
         },
         {
-            field: 'tags',
-            headerName: 'tags',
-            // width: 110,
-            flex: 1,
-            renderCell: ({ row }) => {
-                // console.log(row)
-
-                return <>
-                    {row?.tags?.map((v) => {
-                        return <>
-                            <Chip label={v} color="info" sx={{ mr: 0.5, p: 0, borderRadius: '50%' }} /></>
-                    })}
-
-                </>
-            }
+            field: 'cycles',
+            headerName: 'Cycles',
+            width: 110,
+        },
+        {
+            field: 'start_time',
+            headerName: 'Start Time',
+            width: 110,
+        },
+        {
+            field: 'updateTime',
+            headerName: 'Last Updated',
+            width: 110,
         },
         // {
         //     field: 'fullName',
@@ -158,39 +174,39 @@ const useTests = () => {
         // },
     ];
 
-    const rows = [
-        {
-            id: '1',
-            testName: "Test",
-            project: "Project",
-            comments: "comment",
-            cellInformation: "",
-            tags: [1, 2, 4],
-            createdAt: '2024-03-23',
-            updatedAt: '2024-04-02'
-        },
-        {
-            id: '2',
-            testName: "Test",
-            project: "Project",
-            comments: "comment",
-            cellInformation: "",
-            tags: [1, 2, 4],
-            createdAt: '2024-03-23',
-            updatedAt: '2024-04-02'
-        },
-        {
-            id: '3',
-            testName: "Test",
-            project: "Project",
-            comments: "comment",
-            cellInformation: "",
-            tags: [1, 2, 4],
-            createdAt: '2024-03-23',
-            updatedAt: '2024-04-02'
-        }
+    // const rows = [
+    //     {
+    //         id: '1',
+    //         testName: "Test",
+    //         project: "Project",
+    //         comments: "comment",
+    //         cellInformation: "",
+    //         tags: [1, 2, 4],
+    //         createdAt: '2024-03-23',
+    //         updatedAt: '2024-04-02'
+    //     },
+    //     {
+    //         id: '2',
+    //         testName: "Test",
+    //         project: "Project",
+    //         comments: "comment",
+    //         cellInformation: "",
+    //         tags: [1, 2, 4],
+    //         createdAt: '2024-03-23',
+    //         updatedAt: '2024-04-02'
+    //     },
+    //     {
+    //         id: '3',
+    //         testName: "Test",
+    //         project: "Project",
+    //         comments: "comment",
+    //         cellInformation: "",
+    //         tags: [1, 2, 4],
+    //         createdAt: '2024-03-23',
+    //         updatedAt: '2024-04-02'
+    //     }
 
-    ];
+    // ];
     return {
         columns, rows, selectedRow, anchorEl, loading, handleClosePopover
     };

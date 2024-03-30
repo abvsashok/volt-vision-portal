@@ -32,7 +32,7 @@ export default function TestsTable() {
                 <VButton variant="contained" color="primary" onClick={(event) => {
 
                 }}>
-                    Post Selected
+                    Plot Selected
                 </VButton>
 
             </Box>
