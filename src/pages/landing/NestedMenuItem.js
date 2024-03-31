@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Divider, Popover, List, ListItem, ListItemText } from '@mui/material';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 
-function NestedMenuItem({ anchorEl, handleClose, nestedItems }) {
+function NestedMenuItem({ anchorEl, handleClose, nestedItems, handleClickMenu }) {
     // const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -20,7 +20,7 @@ function NestedMenuItem({ anchorEl, handleClose, nestedItems }) {
                 <List>
                     {nestedItems.map((item, index) => (
                         <>
-                            <ListItem key={index} button sx={{ minWidth: 160 }}>
+                            <ListItem key={index} button sx={{ minWidth: 160 }} onClick={handleClickMenu}>
                                 <ListItemText primary={item.primaryText} />
                                 <ArrowForwardIosRoundedIcon style={{ fontSize: 15 }} />
                             </ListItem>

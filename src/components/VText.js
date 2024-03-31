@@ -6,7 +6,7 @@ const VText = ({ ...others }) => {
     return <TextField
         variant="standard"
         InputProps={{
-            style: { fontSize: '20px' } // Adjust the font size as needed
+            style: { fontSize: '18px' } // Adjust the font size as needed
         }}
         {...others}
     />

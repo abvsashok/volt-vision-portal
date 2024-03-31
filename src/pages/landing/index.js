@@ -2,23 +2,30 @@ import React, { useState } from "react";
 import { Link as RouterLink } from 'react-router-dom';
 import { BarChart, StarRateRounded, AddCircle } from '@mui/icons-material';
 import { Box, Grid, Typography, Link } from "@mui/material/index";
+import { Stack, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import NestedMenuItem from "./NestedMenuItem";
+import { CancelRounded, SaveAsRounded } from "../../../node_modules/@mui/icons-material/index";
+import VButton from "components/VButton";
+import AddTest from "pages/tests/AddTest";
+import useNotify from "hooks/useNotify";
 const Landing = () => {
-
+    const [addNewTestModal, setAddNewTestModal] = useState({});
     const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
+    const { showSnackbar, SnackbarComponent } = useNotify();
 
     const handleClickOption = (event) => {
-        // if (anchorEl) {
-        //     setAnchorEl(null);
-        // } else
         setAnchorEl(event.currentTarget);
     };
 
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const handleNewTestClose = () => {
+        setAddNewTestModal({});
+    }
+
     return <>
+        {SnackbarComponent}
         <Box container
             sx={{
                 display: 'flex',
@@ -29,7 +36,9 @@ const Landing = () => {
                 spaceBetween: 'center',
                 gap: 5
             }}>
-            <NestedMenuItem anchorEl={anchorEl} handleClose={handleClose} nestedItems={[
+            <NestedMenuItem anchorEl={anchorEl} handleClose={handleClose} handleClickMenu={() => {
+                setAddNewTestModal({ open: true });
+            }} nestedItems={[
                 { primaryText: 'Graph' },
                 { primaryText: 'Template' },
                 { primaryText: 'Collection' },
@@ -72,11 +81,23 @@ const Landing = () => {
                     <AddCircle size="2x" sx={{ fontSize: 90 }}
                     />
                 </Box>
-
                 <Typography variant="h4">Create New</Typography>
-
             </Box>
+            <Dialog
+                open={addNewTestModal?.open}
+                onClose={handleNewTestClose}
+                maxWidth={"lg"}
+                fullWidth={true}
+            >
+                <DialogTitle><h2>Add Test</h2></DialogTitle>
+                <DialogContent >
+                    <AddTest handleNewTestClose={handleNewTestClose} />
+                </DialogContent>
+                <DialogActions sx={{ p: 2 }}>
 
+
+                </DialogActions>
+            </Dialog>
         </Box>
     </>
 }

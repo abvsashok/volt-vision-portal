@@ -2,28 +2,32 @@ import { Autocomplete, Chip, TextField } from "../../node_modules/@mui/material/
 import VText from "./VText";
 
 
-const VAuto = ({ defaultValue, options, label, ...others }) => {
+const VAuto = ({ defaultValue, options, label, name, sx, ...others }) => {
 
     return <>
         <Autocomplete
             multiple
-            id="tags-filled"
+            id={`tags-filled-${name}`}
             options={options ?? []}
             defaultValue={defaultValue ?? []}
             freeSolo
             renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
-                    <Chip variant="filled" label={option} {...getTagProps({ index })} />
+                    <Chip key={index} variant="filled" label={option} {...getTagProps({ index })} />
                 ))
             }
             renderInput={(params) => (
                 <VText
                     {...params}
-                    // variant="outlined"
+                    fullwidth
+                    fullWidth
+                    variant="outlined"
                     label={label}
                     placeholder={label}
                 />
             )}
+            sx={{ pt: 0.5, ...sx }}
+            name={name}
             {...others}
         /></>
 }

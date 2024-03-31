@@ -1,5 +1,6 @@
 // assets
 import { DashboardOutlined } from '@ant-design/icons';
+import { ListAltOutlined, Settings, SettingsApplicationsOutlined } from '../../node_modules/@mui/icons-material/index';
 
 // icons
 const icons = {
@@ -26,7 +27,7 @@ const dashboard = {
       title: 'Tests',
       type: 'item',
       url: '/admin/tests',
-      icon: icons.DashboardOutlined,
+      icon: ListAltOutlined,
       breadcrumbs: false
     },
     {
@@ -34,7 +35,7 @@ const dashboard = {
       title: 'Projects',
       type: 'item',
       url: '/admin/projects',
-      icon: icons.DashboardOutlined,
+      icon: Settings,
       breadcrumbs: false
     }
   ]

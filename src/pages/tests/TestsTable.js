@@ -13,7 +13,7 @@ import EditRow from './EditRow';
 
 export default function TestsTable() {
 
-    const { columns, rows, selectedRow, anchorEl, loading, handleClosePopover } = useTests();
+    const { columns, rows, selectedRow, anchorEl, loading, handleClosePopover, setSelectedRow } = useTests();
 
     const [addNewTestModal, setAddNewTestModal] = React.useState({});
     const handleNewTestClose = () => {
@@ -90,7 +90,9 @@ export default function TestsTable() {
         >
             {selectedRow && (
                 <Box p={2}>
-                    <EditRow data={selectedRow} />
+                    <EditRow data={selectedRow} handleAfterSave={() => {
+                        setSelectedRow(null)
+                    }} />
                 </Box>
             )}
         </Popover>
@@ -101,21 +103,12 @@ export default function TestsTable() {
             onClose={handleNewTestClose}
             maxWidth={"lg"}
             fullWidth={true}
-            PaperProps={{
-                component: 'form',
-                onSubmit: (event) => {
-                    event.preventDefault();
-                },
-            }}
+
         >
             <DialogTitle><h2>Add Test</h2></DialogTitle>
             <DialogContent >
-                <AddTest />
+                <AddTest handleNewTestClose={handleNewTestClose} />
             </DialogContent>
-            <DialogActions sx={{ p: 2 }}>
-                <VButton onClick={handleNewTestClose} startIcon={<CancelRounded />} variant="contained" >Cancel</VButton>
-                <VButton type="submit" variant="outlined" startIcon={<SaveAsRounded />}>Save</VButton>
-            </DialogActions>
         </Dialog>
     </Box>
 }

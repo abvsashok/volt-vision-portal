@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { BarChartOutlined, Download, Edit, EditAttributesRounded, EditNoteOutlined, PhotoAlbum, Update, UploadFile } from "../../../node_modules/@mui/icons-material/index";
+import { Download, EditNoteOutlined, PhotoAlbum, } from "../../../node_modules/@mui/icons-material/index";
 import { Box, Chip, IconButton, Stack, Typography } from "../../../node_modules/@mui/material/index";
 import axios from "../../../node_modules/axios/index";
-import { ApiHeaders, Urls } from "utils/constant";
+import { Urls } from "utils/constant";
 
 const ColVal = ({ children }) => <Typography sx={{ m: 0, fontSize: 16, fontWeight: 700, p: 0 }}>{children}</Typography>
 
@@ -23,7 +23,7 @@ const useTests = () => {
 
     const loadTableData = () => {
         setLoading(true);
-        axios.post(Urls.testsData).then((r) => r.data).then((resp) => {
+        axios.get(Urls.testsData).then((r) => r.data).then((resp) => {
             setLoading(false);
             try {
                 setRows(resp?.map((r, i) => ({ ...r, id: i + 1 })));
@@ -66,10 +66,9 @@ const useTests = () => {
             }
         },
         {
-            field: 'testName',
+            field: 'test_name',
             headerName: 'Test Name',
             width: 150,
-
             renderCell: (data) => {
                 const { row } = data;
                 return <>
@@ -92,15 +91,24 @@ const useTests = () => {
             field: 'tags',
             headerName: 'tags',
             flex: 1,
-            renderCell: ({ row }) => {
-                // console.log(row)
+            renderCell: (data) => {
+                const { row } = data;
 
-                return <>
-                    {row?.tags?.map((v) => {
+                return <><Stack
+                    direction="row"
+                    spacing={1}
+                    sx={{ mt: 1 }}
+                >
+                    <EditNoteOutlined sx={{ cursor: 'pointer' }} onClick={(event) => {
+                        setSelectedRow(data);
+                        setAnchorEl(event.currentTarget)
+                    }} />
+                    {row?.tags?.map((v, i) => {
                         return <>
-                            <Chip label={v} color="info" sx={{ mr: 0.5, p: 0 }} /></>
+                            <Chip label={v} key={i} color="info" sx={{ mr: 0.5, p: 0 }} />
+                        </>
                     })}
-
+                </Stack>
                 </>
             }
         },
@@ -109,7 +117,23 @@ const useTests = () => {
             flex: 1,
             field: 'comments',
             headerName: 'Comments',
-            // width: 110,
+            renderCell: (data) => {
+                const { row } = data;
+                return <>
+                    <Stack
+                        direction="row"
+                        spacing={1}
+                        sx={{ mt: 1 }}
+                    >
+                        <EditNoteOutlined sx={{ cursor: 'pointer' }} onClick={(event) => {
+                            setSelectedRow(data);
+                            setAnchorEl(event.currentTarget)
+                        }} />
+                        <ColVal>{row?.comments}</ColVal>
+
+                    </Stack>
+                </>
+            }
         },
         {
             field: 'project',
@@ -136,14 +160,18 @@ const useTests = () => {
             field: 'cellInformation',
             headerName: 'Cell Information',
             width: 110,
-            renderCell: ({ row }) => {
+            renderCell: (data) => {
+                const { row } = data;
                 return <>
                     <Stack
                         direction="row"
                         spacing={1}
                         sx={{ mt: 1 }}
                     >
-                        <EditNoteOutlined /> <ColVal>{row?.cellInformation}</ColVal>
+                        <EditNoteOutlined sx={{ cursor: 'pointer' }} onClick={(event) => {
+                            setSelectedRow(data);
+                            setAnchorEl(event.currentTarget)
+                        }} /> <ColVal>{row?.cellInformation}</ColVal>
 
                     </Stack>
                 </>
@@ -153,6 +181,22 @@ const useTests = () => {
             field: 'cycles',
             headerName: 'Cycles',
             width: 110,
+            renderCell: (data) => {
+                const { row } = data;
+                return <>
+                    <Stack
+                        direction="row"
+                        spacing={1}
+                        sx={{ mt: 1 }}
+                    >
+                        <EditNoteOutlined sx={{ cursor: 'pointer' }} onClick={(event) => {
+                            setSelectedRow(data);
+                            setAnchorEl(event.currentTarget)
+                        }} /> <ColVal>{row?.cycles}</ColVal>
+
+                    </Stack>
+                </>
+            }
         },
         {
             field: 'start_time',
@@ -164,51 +208,10 @@ const useTests = () => {
             headerName: 'Last Updated',
             width: 110,
         },
-        // {
-        //     field: 'fullName',
-        //     headerName: 'Full name',
-        //     description: 'This column has a value getter and is not sortable.',
-        //     sortable: false,
-        //     // width: 160,
-        //     valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
-        // },
     ];
 
-    // const rows = [
-    //     {
-    //         id: '1',
-    //         testName: "Test",
-    //         project: "Project",
-    //         comments: "comment",
-    //         cellInformation: "",
-    //         tags: [1, 2, 4],
-    //         createdAt: '2024-03-23',
-    //         updatedAt: '2024-04-02'
-    //     },
-    //     {
-    //         id: '2',
-    //         testName: "Test",
-    //         project: "Project",
-    //         comments: "comment",
-    //         cellInformation: "",
-    //         tags: [1, 2, 4],
-    //         createdAt: '2024-03-23',
-    //         updatedAt: '2024-04-02'
-    //     },
-    //     {
-    //         id: '3',
-    //         testName: "Test",
-    //         project: "Project",
-    //         comments: "comment",
-    //         cellInformation: "",
-    //         tags: [1, 2, 4],
-    //         createdAt: '2024-03-23',
-    //         updatedAt: '2024-04-02'
-    //     }
-
-    // ];
     return {
-        columns, rows, selectedRow, anchorEl, loading, handleClosePopover
+        columns, rows, selectedRow, anchorEl, loading, handleClosePopover, setSelectedRow
     };
 }
 
