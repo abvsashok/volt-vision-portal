@@ -13,7 +13,7 @@ import EditRow from './EditRow';
 
 export default function TestsTable() {
 
-    const { columns, rows, selectedRow, anchorEl, loading, handleClosePopover, setSelectedRow } = useTests();
+    const { columns, rows, selectedRow, anchorEl, loading, handleClosePopover, setSelectedRow, loadTableData } = useTests();
 
     const [addNewTestModal, setAddNewTestModal] = React.useState({});
     const handleNewTestClose = () => {
@@ -91,7 +91,8 @@ export default function TestsTable() {
             {selectedRow && (
                 <Box p={2}>
                     <EditRow data={selectedRow} handleAfterSave={() => {
-                        setSelectedRow(null)
+                        setSelectedRow(null);
+                        loadTableData();
                     }} />
                 </Box>
             )}

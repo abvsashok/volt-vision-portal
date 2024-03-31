@@ -211,7 +211,7 @@ const useTests = () => {
     ];
 
     return {
-        columns, rows, selectedRow, anchorEl, loading, handleClosePopover, setSelectedRow
+        columns, rows, selectedRow, anchorEl, loading, handleClosePopover, setSelectedRow, loadTableData
     };
 }
 
