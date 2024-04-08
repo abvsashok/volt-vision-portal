@@ -23,18 +23,28 @@ const AddTest = ({
     const [colsMapping, setColsMapping] = useState([])
     const { uploadFile } = useUploadS3();
     useEffect(() => {
-        const fetchDataInterval = setInterval(() => {
-            fetchColMapping();
-        }, 20000);
+        let fetchDataInterval;
+        if (data?.file && data?.testName) {
+            fetchDataInterval = setInterval(() => {
+                fetchColMapping();
+            }, 10000);
+        }
 
         return () => clearInterval(fetchDataInterval);
-    }, [data?.file]);
+    }, [data?.file, data?.testName]);
 
     const fetchColMapping = async () => {
         try {
             const response = await axios.get(Urls.colsMapping, {
+                "filename": `${data?.testName}`,
+                data: {
+                    "filename": `${data?.testName}`,
+                },
+                body: {
+                    "filename": `${data?.testName}`,
+                },
                 params: {
-                    "filename": "sampledatafromlocal_20240330180218"
+                    "filename": `${data?.testName}`,// "sampledatafromlocal_20240330180218"
                 }
             });
             const responseData = response.data;
@@ -58,8 +68,8 @@ const AddTest = ({
         const file = event.target.files[0];
 
         console.log(file, event.target);
-        setData({ ...data, file, testName: file.name });
-        setColsMapping(rightColsMapping)
+        setData({ ...data, file, testName: file.name?.split(".")[0] });
+
     };
     const handleUpload = () => {
         uploadFile(data?.file);
@@ -69,25 +79,34 @@ const AddTest = ({
         console.log(data)
     }, [data]);
 
+    const sendCellInfo = async () => {
+        return axios.post(Urls.cellInfo, {
+            type: 'post',
+            test_name: data?.testName,
+            table_name: data?.testName
+        })
+    }
+
     const handleSubmit = () => {
         setSaving(true)
         axios.post(Urls.testsData, {
             "type": "add",
             "test_name": data?.testName,
             "tags": data?.tags,
-            "comments": data?.comments,
+            "comments": [data?.comments],
             "project": data?.project || [],
             "cycles": 1,
             "start_time": moment(new Date()).format("YYYY-MM-DD"),
             "last_updated": moment(new Date()).format("YYYY-MM-DD"),
             "columnmap": data?.columnmap || {}
-        }).then(() => {
+        }).then(async () => {
 
             showSnackbar("saved Successfully");
+            await sendCellInfo();
             setTimeout(() => {
                 setSaving(false);
                 handleNewTestClose && handleNewTestClose()
-            }, 3000)
+            }, 5000)
         }).catch(() => {
             showSnackbar("Error Ouured", "error")
             setSaving(false)
@@ -120,7 +139,7 @@ const AddTest = ({
                                 variant="outlined"
                                 onChange={handleFileChange}
                             />
-                            <VButton onClick={handleUpload} startIcon={<UploadFileOutlined />} variant="contained" sx={{ mt: 0 }} > Upload </VButton>
+                            <VButton onClick={handleUpload} startIcon={<UploadFileOutlined />} disabled={data?.file ? false : true} variant="contained" sx={{ mt: 0 }} > Upload </VButton>
                         </Grid>
                         <Grid item xs={12} >
                             <VText
@@ -185,7 +204,7 @@ const AddTest = ({
                             {colsMapping?.length ? <ColMap rightCols={colsMapping} handleChangeTags={(latestMap) => {
                                 setData({ ...data, 'columnmap': { ...data?.columnmap, ...latestMap } })
                             }} /> : <>
-                                <h2>Columns Mapping</h2>
+                                <h2 style={{ padding: 2 }}>Columns Mapping</h2>
                                 <CustomNoRowsOverlay />
                             </>}
                         </Paper>

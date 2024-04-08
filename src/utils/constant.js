@@ -5,7 +5,8 @@ export const testsDataUrl = `${apiDomain}electron/meta`;
 
 export const Urls = {
     testsData: `https://27yt4hyj5a.execute-api.us-east-1.amazonaws.com/electron/meta`,
-    colsMapping: `https://27yt4hyj5a.execute-api.us-east-1.amazonaws.com/electron/columnmaping`
+    colsMapping: `https://27yt4hyj5a.execute-api.us-east-1.amazonaws.com/electron/columnmaping`,
+    cellInfo:`https://27yt4hyj5a.execute-api.us-east-1.amazonaws.com/electron/cellinfo`
 }
 
 export const ApiHeaders = {

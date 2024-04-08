@@ -8,10 +8,13 @@ import { CancelRounded, SaveAsRounded } from "../../../node_modules/@mui/icons-m
 import VButton from "components/VButton";
 import AddTest from "pages/tests/AddTest";
 import useNotify from "hooks/useNotify";
+import { useNavigate } from "react-router-dom";
+
 const Landing = () => {
     const [addNewTestModal, setAddNewTestModal] = useState({});
     const [anchorEl, setAnchorEl] = useState(null);
     const { showSnackbar, SnackbarComponent } = useNotify();
+    const navigate = useNavigate();
 
     const handleClickOption = (event) => {
         setAnchorEl(event.currentTarget);
@@ -22,6 +25,7 @@ const Landing = () => {
     };
     const handleNewTestClose = () => {
         setAddNewTestModal({});
+        navigate("/admin/tests")
     }
 
     return <>

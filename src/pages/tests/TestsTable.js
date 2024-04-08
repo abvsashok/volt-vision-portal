@@ -9,6 +9,7 @@ import { Backdrop, LinearProgress, Popover } from '../../../node_modules/@mui/ma
 import VButton from 'components/VButton';
 import AddTest from './AddTest';
 import EditRow from './EditRow';
+import CellInfo from './CellInfo';
 
 
 export default function TestsTable() {
@@ -19,6 +20,8 @@ export default function TestsTable() {
     const handleNewTestClose = () => {
         setAddNewTestModal({});
     }
+
+    console.log(selectedRow)
     return <Box  >
         <Stack
             direction="row"
@@ -73,7 +76,7 @@ export default function TestsTable() {
         />
         <Popover
             id="popover"
-            open={Boolean(selectedRow)}
+            open={Boolean(selectedRow) && Boolean(selectedRow?.field != "cellInformation")}
             anchorEl={anchorEl}
             sx={{
                 zIndex: (theme) => theme.zIndex.drawer + 400
@@ -97,7 +100,7 @@ export default function TestsTable() {
                 </Box>
             )}
         </Popover>
-        <Backdrop id="backdropid" sx={{ color: 'red', zIndex: (theme) => theme.zIndex.drawer + 300 }} open={Boolean(selectedRow)}>
+        <Backdrop id="backdropid" sx={{ color: 'red', zIndex: (theme) => theme.zIndex.drawer + 300 }} open={Boolean(selectedRow) && Boolean(selectedRow?.field != "cellInformation")}>
         </Backdrop>
         <Dialog
             open={addNewTestModal?.open}
@@ -111,5 +114,19 @@ export default function TestsTable() {
                 <AddTest handleNewTestClose={handleNewTestClose} />
             </DialogContent>
         </Dialog>
+
+        <Dialog
+            open={selectedRow?.field == "cellInformation" ? true : false}
+            onClose={handleClosePopover}
+            maxWidth={"lg"}
+            fullWidth={true}
+
+        >
+            <DialogTitle><h2>Cell Info</h2></DialogTitle>
+            <DialogContent >
+                <CellInfo handleNewTestClose={handleNewTestClose}/>
+            </DialogContent>
+        </Dialog>
+
     </Box>
 }
