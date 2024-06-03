@@ -11,6 +11,7 @@ import Paper from '@mui/material/Paper';
 import { CancelRounded, SaveAsRounded, TextFields } from '../../../node_modules/@mui/icons-material/index';
 import VButton from 'components/VButton';
 import { LoadingButton } from '../../../node_modules/@mui/lab/index';
+import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -61,8 +62,19 @@ const rows = [
 ];
 
 export default function CellInfo({
+    data,
     handleNewTestClose
 }) {
+
+    React.useEffect(() => {
+        console.log(data)
+        axios.get(`https://27yt4hyj5a.execute-api.us-east-1.amazonaws.com/electron/cellinfo?filename=test1&type=get`).then((res) => {
+            console.log(res)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }, [])
+
     return (
         <><TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -81,11 +93,11 @@ export default function CellInfo({
                                 {row.cellParameter}
                             </StyledTableCell>
                             <StyledTableCell align="right"><TextField
-                            //   id=""
-                              label="Value"
+                                //   id=""
+                                label="Value"
                             //   value={}
                             //   onChange={}
-                              
+
                             /></StyledTableCell>
                             <StyledTableCell align="right">{row.units}</StyledTableCell>
                             <StyledTableCell align="right">{row.notes}</StyledTableCell>

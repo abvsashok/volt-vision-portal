@@ -124,7 +124,7 @@ export default function TestsTable() {
         >
             <DialogTitle><h2>Cell Info</h2></DialogTitle>
             <DialogContent >
-                <CellInfo handleNewTestClose={handleClosePopover}/>
+                <CellInfo handleNewTestClose={handleClosePopover} data={selectedRow} />
             </DialogContent>
         </Dialog>
 
